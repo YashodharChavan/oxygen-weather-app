@@ -8,7 +8,7 @@ node_modules/
 dist/
 web-build/
 expo-env.d.ts
-
+.vscode/*
 # Native
 *.orig.*
 *.jks
@@ -29,8 +29,12 @@ yarn-error.*
 .DS_Store
 *.pem
 
+
+
 # local env files
 .env*.local
 
 # typescript
 *.tsbuildinfo
+
+AndroidMenifest.xml
