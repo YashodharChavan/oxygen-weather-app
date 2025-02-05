@@ -320,10 +320,12 @@ export default function App() {
       </View>
 
       <View style={[styles.footer, {display: 'flex',gap: -30, flexDirection: 'row', alignItems: 'center',justifyContent: 'space-around'}]}>
-        <Image source={require('./assets/image1.png')} style={{height: 80, width:80}}></Image>
-        <Image source={require('./assets/image2.png')} style={{height: 73, width:73}}></Image>
-        <Image source={require('./assets/image4.png')} style={{height: 72, width:72}}></Image>
-        <Image source={require('./assets/image5.png')} style={{height: 74, width:74}}></Image>
+        {/* <Image source={require('./assets/image1.png')} style={{height: 80, width:80}}/>
+        <Image source={require('./assets/image2.png')} style={{height: 73, width:73}}/>
+        <Image source={require('./assets/image4.png')} style={{height: 72, width:72}}/>
+        <Image source={require('./assets/image5.png')} style={{height: 74, width:74}}/> */}
+        <Image source={require('./assets/mountain.png')} style={{height: 100, width:200}}/>
+
       </View>
 
       <StatusBar style="auto" />
