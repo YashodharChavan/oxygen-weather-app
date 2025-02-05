@@ -1,7 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Modal, TextInput } from 'react-native';
 import { useFonts } from 'expo-font';
 import { useState, useEffect } from 'react';
+import { DataTable } from 'react-native-paper';
 
 export default function App() {
   const [day, setDay] = useState(0);
@@ -23,11 +24,27 @@ export default function App() {
   const [weatherAlerts, setWeatherAlerts] = useState(null)
   const [severity, setSeverity] = useState(null)
   const [severityColor, setSeverityColor] = useState(null)
+  const [modalVisible, setModalVisible] = useState(false);
+  const [city, setCity] = useState('london');
+  const [menuVisible, setMenuVisible] = useState(false);
 
-  let city = 'solapur'
   let API_KEY = '952fdc12194fd067bdee03bff7193ed4';
   const WEATHER_API_KEY = '86c1ef560f06437c9dc71405250202'
   
+  const handleImagePress = () => {
+    setModalVisible(true); // Show input modal when image is clicked
+  };
+
+  const handleMenuImagePress = () => {
+    setMenuVisible(true); // Show information modal when menu image is clicked
+  };
+
+
+  const handleCityInputChange = (text) => {
+    setCity(text);
+  };
+
+
   const fetchWeatherData = async () => {
     try {
       const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}`);
@@ -35,8 +52,13 @@ export default function App() {
       
       
       // NOTE: obtained humidity here
-      let humid = data.main.humidity;
-      setHumidity(humid)
+      try {
+
+        let humid = data.main.humidity;
+        setHumidity(humid)
+      } catch (error) {
+        
+      }
       
       // NOTE: obtaining weather condition like sunny, cloudy, etc
       const weatherCond = data.weather[0].description; 
@@ -98,16 +120,6 @@ export default function App() {
       setWeatherAlerts("None")
       setSeverity("None")
     }
-    
-    if(severity == "Moderate") {
-      setSeverityColor("yellow")
-    }
-    else if(severity == "Severe") {
-      setSeverityColor("red")
-    }
-    else if(severity == "None") {
-      setSeverityColor("green")
-    }
 
     
     // NOTE: obtained direction
@@ -134,20 +146,91 @@ export default function App() {
     'Nothing-Font': require('./assets/fonts/Nothing-Font.ttf'),
   });
 
+  useEffect(() => {
+      getFormattedDate();
+      fetchWeatherData();
+
+  }, [city])
 
   useEffect(() => {
-    getFormattedDate();
-    fetchWeatherData();
-
-  }, [])
+    if(severity == "Moderate") {
+      setSeverityColor("yellow")
+    }
+    else if(severity == "Severe") {
+      setSeverityColor("red")
+    }
+    else if(severity=="None") {
+      setSeverityColor("green")
+    }
+  }, [severity]);
 
 
   return (
     <View style={styles.container}>
-      <View style={styles.navbar}>
+      <View style={[styles.navbar, {display: 'flex', flexDirection: 'row'}]}>
         <Text style={{ color: "#fefefe", fontSize: 32, fontFamily: 'NeueMachina-Regular' }}>
           Oxygen
         </Text>
+        <View style={{display: 'flex', flexDirection: 'row', justifyContent:"flex-start"}}>
+
+
+        <TouchableOpacity onPress={handleMenuImagePress}>
+          <Image source={require('./assets/menu.png')} style={{ width: 50, height: 50 }} />
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={handleImagePress}>
+          <Image source={require('./assets/location (1).png')} style={{ width: 50, height: 50 }} />
+        </TouchableOpacity>
+        </View>
+
+        <Modal
+        visible={modalVisible}
+        animationType="slide"
+        transparent={true}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={{ color: 'black', fontSize: 18 }}>Enter City:</Text>
+            <TextInput
+              value={city}
+              onChangeText={handleCityInputChange}
+              style={styles.input}
+              placeholder="Enter city name"
+            />
+            <TouchableOpacity onPress={() => setModalVisible(false)} style={styles.closeButton}>
+              <Text style={{ color: '#fff' }}>Close</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+
+      <Modal
+        visible={menuVisible}
+        animationType="fade"
+        transparent={true}
+        onRequestClose={() => setMenuVisible(false)}
+      >
+        <View style={styles.modalContainer}>
+          <View style={[styles.modalContent]}>
+            <Text style={[styles.fontMachina ,{ color: 'black', fontSize: 24 }]}>Presented By: </Text>
+            <Text style={[styles.fontMachina, { marginTop: 10, fontSize: 18 }]}>
+              1. Yashodhar Chavan - 43
+            </Text>
+            <Text style={[styles.fontMachina, { marginTop: 10, fontSize: 18 }]}>
+              2. Suraj Rathod - 86
+            </Text>
+            <Text style={[styles.fontMachina, { marginTop: 10, fontSize: 18 }]}>
+              3. Aditya Bhosale - 33
+            </Text>
+            <TouchableOpacity onPress={() => setMenuVisible(false)} style={styles.closeButton}>
+              <Text style={{ color: '#fff' }}>Close</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+
+
       </View>
 
       <View style={[styles.dailyForcast, styles.firstPart]}>
@@ -236,10 +319,11 @@ export default function App() {
         <Text style={[styles.fontMachina, {fontSize: 18}]}>{weatherAlerts}</Text>
       </View>
 
-      <View style={[styles.footer]}>
-        <Text style={styles.fontMachina}>presented by: (EES PROJECT)</Text>
-        <Text style={styles.fontMachina}>Yashodhar Chavan (23210230262)</Text>
-        <Text style={styles.fontMachina}>Suraj Rathod (23210230282)</Text>
+      <View style={[styles.footer, {display: 'flex',gap: -30, flexDirection: 'row', alignItems: 'center',justifyContent: 'space-around'}]}>
+        <Image source={require('./assets/image1.png')} style={{height: 80, width:80}}></Image>
+        <Image source={require('./assets/image2.png')} style={{height: 73, width:73}}></Image>
+        <Image source={require('./assets/image4.png')} style={{height: 72, width:72}}></Image>
+        <Image source={require('./assets/image5.png')} style={{height: 74, width:74}}></Image>
       </View>
 
       <StatusBar style="auto" />
@@ -248,6 +332,34 @@ export default function App() {
 }
 
 const styles = StyleSheet.create({
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    backgroundColor: '#fff',
+    padding: 20,
+    borderRadius: 10,
+    width: '80%',
+    alignItems: 'center',
+  },
+  input: {
+    width: '100%',
+    padding: 10,
+    marginTop: 20,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5,
+  },
+  closeButton: {
+    marginTop: 20,
+    backgroundColor: '#333',
+    padding: 10,
+    borderRadius: 5,
+  },
+
   firstPart: {
     display: 'flex',
     flexDirection: 'row',
@@ -279,9 +391,11 @@ const styles = StyleSheet.create({
   navbar: {
     margin: 8,
     height: 60,
+    padding: 8,
     backgroundColor: '#1b232c',
-    justifyContent: 'center',
+    // justifyContent: 'center',
     alignItems: 'center',
+    justifyContent: 'space-between',
   },
   dailyForcast: {
     margin: 9,
@@ -316,7 +430,7 @@ const styles = StyleSheet.create({
     margin: 8,
     height: 60,
     backgroundColor: 'white',
-    // alignItems: 'center',
+    justifyContent: 'center',
     
   },
   adjustCenter: {
