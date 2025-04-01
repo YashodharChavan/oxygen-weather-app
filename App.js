@@ -2,7 +2,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Image, TouchableOpacity, Modal, TextInput } from 'react-native';
 import { useFonts } from 'expo-font';
 import { useState, useEffect } from 'react';
-import { DataTable } from 'react-native-paper';
+import * as Font from 'expo-font';
 
 export default function App() {
   const [day, setDay] = useState(0);
@@ -27,6 +27,7 @@ export default function App() {
   const [modalVisible, setModalVisible] = useState(false);
   const [city, setCity] = useState('london');
   const [menuVisible, setMenuVisible] = useState(false);
+  const [tempCity, setTempCity] = useState("");
 
   let API_KEY = '952fdc12194fd067bdee03bff7193ed4';
   const WEATHER_API_KEY = '86c1ef560f06437c9dc71405250202'
@@ -41,7 +42,8 @@ export default function App() {
 
 
   const handleCityInputChange = (text) => {
-    setCity(text);
+    
+    setTempCity(text);
   };
 
 
@@ -130,7 +132,12 @@ export default function App() {
   };
 
 
-
+  const handleSaveCity = () => {
+    if (tempCity.trim()) { // Ensure the input isn't empty
+      setCity(tempCity.trim()); // Update city only on save
+    }
+    setModalVisible(false); // Close modal after saving
+  };
 
   const getFormattedDate = () => {
     const today = new Date();
@@ -168,7 +175,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <View style={[styles.navbar, {display: 'flex', flexDirection: 'row'}]}>
-        <Text style={{ color: "#fefefe", fontSize: 32, fontFamily: 'NeueMachina-Regular' }}>
+        <Text style={[styles.fontMachina, { color: "#fefefe", fontSize: 30}]}>
           Oxygen
         </Text>
         <View style={{display: 'flex', flexDirection: 'row', justifyContent:"flex-start"}}>
@@ -187,20 +194,37 @@ export default function App() {
         visible={modalVisible}
         animationType="slide"
         transparent={true}
-        onRequestClose={() => setModalVisible(false)}
+        onRequestClose={() => {
+          setModalVisible(false);
+          setTempCity(''); // Reset tempCity when closing without saving
+        }}
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <Text style={{ color: 'black', fontSize: 18 }}>Enter City:</Text>
             <TextInput
-              value={city}
+              value={tempCity} // Use tempCity instead of city
               onChangeText={handleCityInputChange}
               style={styles.input}
               placeholder="Enter city name"
             />
-            <TouchableOpacity onPress={() => setModalVisible(false)} style={styles.closeButton}>
-              <Text style={{ color: '#fff' }}>Close</Text>
-            </TouchableOpacity>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
+              <TouchableOpacity
+                onPress={handleSaveCity} // Save button to confirm city
+                style={[styles.closeButton, { backgroundColor: '#4CAF50' }]} // Green for save
+              >
+                <Text style={{ color: '#fff' }}>Save</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  setModalVisible(false);
+                  setTempCity(''); // Reset tempCity on cancel
+                }}
+                style={styles.closeButton}
+              >
+                <Text style={{ color: '#fff' }}>Cancel</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </Modal>
@@ -223,6 +247,7 @@ export default function App() {
             <Text style={[styles.fontMachina, { marginTop: 10, fontSize: 18 }]}>
               3. Aditya Bhosale - 33
             </Text>
+            
             <TouchableOpacity onPress={() => setMenuVisible(false)} style={styles.closeButton}>
               <Text style={{ color: '#fff' }}>Close</Text>
             </TouchableOpacity>
@@ -235,10 +260,10 @@ export default function App() {
 
       <View style={[styles.dailyForcast, styles.firstPart]}>
         <View style={{width: '55%'}}>
-          <Text style={{ fontSize: 40, fontFamily: 'NeueMachina-Regular' }}>{day}</Text>
+          <Text style={[styles.fontMachina, { fontSize: 36}]}>{day}</Text>
           <View style={{ flexDirection: 'row' }}>
-            <Text style={[styles.fontMachina, { fontSize: 24 }]}>{month}</Text>
-            <Text style={[styles.fontMachina, { fontSize: 24, marginLeft: 4 }]}>{year}</Text>
+            <Text style={[styles.fontMachina, { fontSize: 20 }]}>{month}</Text>
+            <Text style={[styles.fontMachina, { fontSize: 20, marginLeft: 4 }]}>{year}</Text>
           </View>
         </View>
 
@@ -267,15 +292,15 @@ export default function App() {
           </View>
 
           <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginTop: 6 }}>
-            <Text style={[styles.fontMatrix, { fontSize: 16, color: 'white', textAlign: 'center' }]}>Rise</Text>
+            <Text style={[styles.fontMatrix, { fontSize: 14, color: 'white', textAlign: 'center' }]}>Rise</Text>
             <Text style={[styles.fontMatrix, { fontSize: 8, color: 'white', textAlign: 'center', marginLeft: 10, marginRight: 10 }]}>|</Text>
-            <Text style={[styles.fontMatrix, { fontSize: 16, color: 'white', textAlign: 'center' }]}>Fall</Text>
+            <Text style={[styles.fontMatrix, { fontSize: 14, color: 'white', textAlign: 'center' }]}>Fall</Text>
           </View>
         </View>
 
         <View style={[styles.box, { backgroundColor: '#a4a7ae' }]}>
           <Text style={[styles.fontMachina, { fontSize: 22, color: 'white' }]}>Humidity</Text>
-          <Text style={[styles.fontMatrix, { fontSize: 38, margin: 'auto', marginBottom: 2 }]}>{humidity} %</Text>
+          <Text style={[styles.fontMatrix, { fontSize: 34, margin: 'auto', marginBottom: 2 }]}>{humidity} %</Text>
           <Text style={[styles.fontMatrix, { fontSize: 22, margin: 'auto' }]}>avg: {avgHumidity} %</Text>
         
         </View>
@@ -284,7 +309,7 @@ export default function App() {
       <View style={[styles.smallGrid]}>
         <View style={[styles.box, { backgroundColor: 'rgb(208,188,255)' }]}>
           <Text style={[styles.fontMachina, { fontSize: 22, color: 'white' }]}>Wind Speed</Text>
-          <Text style={[styles.fontMatrix, { fontSize: 30, margin: 'auto' }]}>{windSpeed} m/s</Text>
+          <Text style={[styles.fontMatrix, { fontSize: 28, margin: 'auto' }]}>{windSpeed} m/s</Text>
           <Text style={[styles.fontMatrix, { fontSize: 30, margin: 'auto' }]}>{windDirection}</Text>
         </View>
 
