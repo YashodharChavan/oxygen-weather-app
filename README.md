@@ -1,45 +1,154 @@
-# Weather App
 
-This is a simple weather app that provides real-time weather information based on a city name. The app fetches data from a weather API and displays various weather details. The location (city name) is manually set in the code and does not track the user's location.
 
-## Features
-The app displays the following weather details:
+# 🌤️ Oxygen Weather App
 
-- **Current Date**: Shows today's date (day, month, year).
-- **Temperature**: The current temperature in Celsius.
-- **Humidity**: The current humidity percentage.
-- **Weather Description**: The current weather conditions (e.g., clear, cloudy, rainy).
-- **Sunrise and Sunset**: The time of sunrise and sunset for the given city.
-- **Wind Speed and Direction**: The speed and direction of the wind.
-- **UV Index**: The current UV index.
-- **Max UV Index**: The maximum UV index for the day.
-- **Ozone Level**: The current level of ozone (measured in µg/m³).
-- **Cloudiness**: The percentage of cloud cover for the city.
-- **Average Cloudiness**: The average cloudiness for the day.
+A **sleek, mobile-first weather application** built with **React Native**, **Expo**, and **Tailwind CSS**, delivering real-time, location-based weather updates using **WeatherAPI**.
+The app focuses on performance, simplicity, and a clean user experience across **Android and iOS**.
 
-## Features Currently Not Implemented
-- **Location Tracking**: The app does not automatically track the user's location. The city name is manually set in the code for fetching weather data.
+📱 **Cross-platform • Fast • Minimal UI**
 
-## Setup Instructions
+🔗 **Hosted At :** [https://oxygen-weather-app.vercel.app/](https://oxygen-weather-app.vercel.app/)
 
-1. **Clone the Repository**
-   ```bash
-   git clone https://github.com/YashodharChavan/oxygen-weather-app
-   cd oxygen-weather-app
-2. **Install Dependencies**
-   ```bash
-    npm install
-3. **create a .env file (optional)**
-   ```bash
-   WEATHER_API_KEY=your_weather_api_key
-    OPEN_WEATHER_API_KEY=your_open_cage_api_key
-4. **Run the app**
-   ```bash
-    npm start
-## Notes
-* The app uses the WeatherAPI.com to fetch weather data.
+![Screenshot](screenshots/oxygenWeather.avif)
 
-* Make sure to replace your_weather_api_key and 
-your_open_cage_api_key in the .env file with valid keys from the respective APIs.
+---
 
-* The location (city) is hardcoded into the code, so you will need to modify the city name manually in the code if you want weather data for a different city.
+## 📌 Overview
+
+**Oxygen** is a modern weather app designed to provide accurate, real-time weather information based on the user’s current location.
+Built using **React Native + Expo**, it ensures smooth performance and consistent UI behavior across platforms.
+
+The project was developed as part of a **college microproject**, where I independently handled the **entire application development**, while collaborating with teammates on documentation and reporting tasks.
+
+---
+
+## ✨ Key Features
+
+### 📍 Location-Based Forecasts
+
+* Uses device geolocation to fetch real-time weather data
+* Automatically detects the user’s current location
+* Powered by **WeatherAPI**
+
+### 🌦️ Real-Time Weather Information
+
+* Current temperature
+* Weather condition (clear, cloudy, rainy, etc.)
+* Humidity and wind data
+* Clean and readable layout for quick insights
+
+### 📱 Cross-Platform Support
+
+* Works seamlessly on **Android and iOS**
+* Built with **Expo** for faster development and testing
+
+### ⚡ Fast & Lightweight UI
+
+* Styled using **Tailwind CSS**
+* Optimized for smooth animations and quick rendering
+
+### 🎨 Minimal & Responsive Design
+
+* Mobile-first UI
+* Adapts well to different screen sizes
+* Focuses on clarity and usability
+
+---
+
+## 🛠 Tech Stack
+
+* **React Native**
+* **Expo**
+* **Tailwind CSS**
+* **WeatherAPI**
+* **JavaScript**
+
+---
+
+## 🧠 Challenges Faced
+
+### 📡 Geolocation Permissions
+
+Handling location permissions across Android and iOS required proper fallbacks when access was denied.
+
+### 🌐 API Rate Limiting
+
+Efficient API usage was necessary to avoid exceeding WeatherAPI limits during development and testing.
+
+### 📱 Cross-Platform UI Consistency
+
+Minor styling differences between Android and iOS required adjustments to maintain a uniform look.
+
+### 🌤️ Real-Time Data Handling
+
+Managing asynchronous API calls and state updates to ensure accurate and timely data display.
+
+### 📏 Responsive Layout
+
+Ensuring the UI scaled well across different mobile screen sizes using Tailwind-compatible styling.
+
+---
+
+## 🧪 Getting Started
+
+### 1️⃣ Clone the Repository
+
+```bash
+git clone https://github.com/YashodharChavan/oxygen-weather-app
+cd oxygen-weather-app
+```
+
+### 2️⃣ Install Dependencies
+
+```bash
+npm install
+```
+
+### 3️⃣ Create Environment Variables (Optional)
+
+Create a `.env` file in the root directory:
+
+```env
+WEATHER_API_KEY=your_weather_api_key
+```
+
+> Get your API key from **[https://www.weatherapi.com/](https://www.weatherapi.com/)**
+
+---
+
+### 4️⃣ Start the App
+
+```bash
+npm start
+```
+
+* Scan the QR code using **Expo Go**
+* Or run on an Android/iOS emulator
+
+---
+
+## 📊 Project Outcome
+
+* ✅ Fully functional cross-platform weather app
+* ✅ Smooth geolocation + real-time API integration
+* ✅ Clean, responsive, mobile-first UI
+* ✅ Demonstrates practical React Native & Expo skills
+
+This project showcases the ability to build **production-ready mobile applications**, handle real-world APIs, and manage cross-platform UX challenges.
+
+---
+
+## 👥 Team Information
+
+**Project Type:** Academic Microproject (Environmental Education & Sustainability)
+
+### Team Members
+
+* **Yashodhar Chavan** — Application Development & Coding
+* Aditya Bhosale — Documentation & Report Writing
+* Suraj Rathod — Documentation & Formatting
+
+> I independently handled the complete app development, while collaborating with teammates for non-technical deliverables.
+
+
+
