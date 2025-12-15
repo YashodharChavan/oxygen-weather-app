@@ -73,7 +73,7 @@ export default function App() {
       };
 
       //NOTE: obtained average humidity, uv index, and max uv index
-      let weathetApiRequest = await fetch(`http://api.weatherapi.com/v1/forecast.json?key=${WEATHER_API_KEY}&q=${city}&days=1`)
+      let weathetApiRequest = await fetch(`https://api.weatherapi.com/v1/forecast.json?key=${WEATHER_API_KEY}&q=${city}&days=1`)
       let weathetApiResponse = await weathetApiRequest.json()
       setUVIndex(weathetApiResponse.forecast.forecastday[0].day.uv)
       setAvgHumidity(weathetApiResponse.forecast.forecastday[0].day.avghumidity)
